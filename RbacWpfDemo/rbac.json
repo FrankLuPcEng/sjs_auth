@@ -1,0 +1,21 @@
+{
+  "users": [
+    { "id": "u_admin", "name": "Admin" },
+    { "id": "u_op", "name": "Operator" }
+  ],
+  "roles": [
+    { "id": "r_admin", "name": "Administrator" },
+    { "id": "r_operator", "name": "Operator" }
+  ],
+  "userRoles": [
+    { "userId": "u_admin", "roleId": "r_admin" },
+    { "userId": "u_op", "roleId": "r_operator" }
+  ],
+  "rolePermissions": [
+    { "roleId": "r_admin", "permissionKey": "Device.Read" },
+    { "roleId": "r_admin", "permissionKey": "Device.Edit" },
+    { "roleId": "r_admin", "permissionKey": "Report.View" },
+    { "roleId": "r_operator", "permissionKey": "Device.Read" },
+    { "roleId": "r_operator", "permissionKey": "Report.View" }
+  ]
+}
