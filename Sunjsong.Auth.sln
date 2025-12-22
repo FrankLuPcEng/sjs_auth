@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sunjsong.Auth.Store.Json", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RbacWpfDemo", "RbacWpfDemo/RbacWpfDemo.csproj", "{76B066D6-78DB-481B-953D-1DA8526D9B71}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sunjsong.Auth.Tests", "Sunjsong.Auth.Tests/Sunjsong.Auth.Tests.csproj", "{8647B959-39E4-498F-B820-551F98BB969E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,5 +34,9 @@ Global
 		{76B066D6-78DB-481B-953D-1DA8526D9B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76B066D6-78DB-481B-953D-1DA8526D9B71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76B066D6-78DB-481B-953D-1DA8526D9B71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8647B959-39E4-498F-B820-551F98BB969E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8647B959-39E4-498F-B820-551F98BB969E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8647B959-39E4-498F-B820-551F98BB969E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8647B959-39E4-498F-B820-551F98BB969E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
