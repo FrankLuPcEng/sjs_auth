@@ -49,7 +49,7 @@ public sealed class AuthorizationServiceTests
         Assert.Throws<UnauthorizedAccessException>(() => service.Demand("perm.write"));
     }
 
-    private sealed class StubStore : IRbacStore
+    private sealed class StubStore : IRbacStoreReader
     {
         private readonly RbacSnapshot _snapshot;
 

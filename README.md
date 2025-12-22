@@ -68,7 +68,35 @@ if (authorizationService.Can("reports.view"))
 authorizationService.Demand("reports.edit"); // Throws if not allowed
 ```
 
-### 4) JSON store format
+### 4) Manage RBAC data (writer)
+
+```csharp
+using Sunjsong.Auth.Abstractions;
+using Sunjsong.Auth.Core;
+
+services.AddSunjsongAuthorizationManagement();
+
+var manager = provider.GetRequiredService<IRbacManagementService>();
+
+await manager.CreateUserAsync(new UserUpsertInput { Id = "user-2", Name = "Bob" });
+await manager.CreateRoleAsync(new RoleUpsertInput { Id = "role-2", Name = "Report viewers" });
+await manager.CreateUserRoleAsync(new UserRoleUpsertInput { UserId = "user-2", RoleId = "role-2" });
+await manager.CreateRolePermissionAsync(new RolePermissionUpsertInput
+{
+    RoleId = "role-2",
+    PermissionKey = "reports.view"
+});
+
+var users = await manager.QueryUsersAsync(new UserQuery
+{
+    NameContains = "Bob",
+    Page = new RbacPageRequest { PageNumber = 1, PageSize = 20 }
+});
+```
+
+> Note: management APIs require an `IRbacStoreWriter`/`IRbacRepository` implementation to be registered in DI.
+
+### 5) JSON store format
 
 The JSON store file is created automatically when missing.
 

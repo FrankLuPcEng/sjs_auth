@@ -4,7 +4,7 @@ namespace Sunjsong.Auth.Core;
 
 public sealed class AuthorizationService : IAuthorizationService
 {
-    private readonly IRbacStore _store;
+    private readonly IRbacStoreReader _store;
     private readonly IUserContext _userContext;
     private readonly IPermissionCatalog _permissionCatalog;
     private readonly HashSet<string> _catalogKeys;
@@ -12,7 +12,7 @@ public sealed class AuthorizationService : IAuthorizationService
     private RbacSnapshot _snapshot = new();
     private HashSet<string> _permissions = new(StringComparer.Ordinal);
 
-    public AuthorizationService(IRbacStore store, IUserContext userContext, IPermissionCatalog permissionCatalog)
+    public AuthorizationService(IRbacStoreReader store, IUserContext userContext, IPermissionCatalog permissionCatalog)
     {
         _store = store;
         _userContext = userContext;

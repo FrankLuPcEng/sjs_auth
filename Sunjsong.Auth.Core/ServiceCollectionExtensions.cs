@@ -11,4 +11,10 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IAuthorizationService, AuthorizationService>();
         return services;
     }
+
+    public static IServiceCollection AddSunjsongAuthorizationManagement(this IServiceCollection services)
+    {
+        services.AddSingleton<IRbacManagementService, RbacManagementService>();
+        return services;
+    }
 }
