@@ -1,0 +1,23 @@
+[
+  {
+    "Id": "dev-1001",
+    "Name": "Edge Camera",
+    "Category": "Video",
+    "Status": "Active",
+    "CreatedAt": "2024-12-01T08:00:00Z"
+  },
+  {
+    "Id": "dev-1002",
+    "Name": "Door Sensor",
+    "Category": "Sensor",
+    "Status": "Inactive",
+    "CreatedAt": "2024-12-10T10:00:00Z"
+  },
+  {
+    "Id": "dev-1003",
+    "Name": "Smart Panel",
+    "Category": "HMI",
+    "Status": "Active",
+    "CreatedAt": "2024-12-11T03:30:00Z"
+  }
+]

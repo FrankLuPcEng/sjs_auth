@@ -26,7 +26,9 @@ public partial class App : Application
             options.FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rbac.json");
         });
         services.AddSingleton<IPermissionCatalog, DemoPermissionCatalog>();
+        services.AddSingleton<IDeviceRepository>(_ => new DeviceRepository(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "devices.json")));
         services.AddSingleton<MainViewModel>();
+        services.AddTransient<DeviceCrudViewModel>();
 
         _serviceProvider = services.BuildServiceProvider();
         AuthorizationServiceLocator.Provider = _serviceProvider;
