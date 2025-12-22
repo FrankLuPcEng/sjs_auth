@@ -1,5 +1,10 @@
 using Sunjsong.Auth.Abstractions;
 using Sunjsong.Auth.Core;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Xunit;
 
 namespace Sunjsong.Auth.Tests;
 
@@ -46,7 +51,7 @@ public sealed class AuthorizationServiceTests
         var service = new AuthorizationService(store, userContext, catalog);
         await service.RefreshAsync();
 
-        Assert.Throws<UnauthorizedAccessException>(() => service.Demand("perm.write"));
+        Assert.Throws<System.UnauthorizedAccessException>(() => service.Demand("perm.write"));
     }
 
     private sealed class StubStore : IRbacStoreReader

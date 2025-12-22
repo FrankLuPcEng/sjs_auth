@@ -15,7 +15,6 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(options);
         services.AddSingleton<SqliteRbacStore>();
         services.AddSingleton<IRbacStore>(sp => sp.GetRequiredService<SqliteRbacStore>());
-        services.AddSingleton<IRbacStoreWriter>(sp => sp.GetRequiredService<SqliteRbacStore>());
 
         return services;
     }

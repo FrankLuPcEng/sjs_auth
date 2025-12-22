@@ -92,8 +92,9 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     public async Task InitializeAsync()
     {
-        await _authorizationService.RefreshAsync().ConfigureAwait(false);
-        _snapshot = await _rbacStore.LoadAsync().ConfigureAwait(false);
+        // Stay on the UI context to update ObservableCollections safely
+        await _authorizationService.RefreshAsync();
+        _snapshot = await _rbacStore.LoadAsync();
         LoadUsers();
 
         if (string.IsNullOrWhiteSpace(_userContext.CurrentUserId) && Users.Count > 0)

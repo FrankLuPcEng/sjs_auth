@@ -3,7 +3,7 @@ using Sunjsong.Auth.Abstractions;
 
 namespace Sunjsong.Auth.Store.Sqlite;
 
-public sealed class SqliteRbacStore : IRbacStore, IRbacStoreWriter
+public sealed class SqliteRbacStore : IRbacStore
 {
     private readonly string _connectionString;
 
