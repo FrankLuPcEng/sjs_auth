@@ -8,6 +8,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sunjsong.Auth.Core", "Sunjs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sunjsong.Auth.Store.Json", "Sunjsong.Auth.Store.Json/Sunjsong.Auth.Store.Json.csproj", "{AC2C9AC3-61C0-4781-AF6A-BCA0832FD5CD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sunjsong.Auth.Store.Sqlite", "Sunjsong.Auth.Store.Sqlite/Sunjsong.Auth.Store.Sqlite.csproj", "{FF2004D4-705C-4941-87C4-B1ED0317F8F8}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RbacWpfDemo", "RbacWpfDemo/RbacWpfDemo.csproj", "{76B066D6-78DB-481B-953D-1DA8526D9B71}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sunjsong.Auth.Tests", "Sunjsong.Auth.Tests/Sunjsong.Auth.Tests.csproj", "{8647B959-39E4-498F-B820-551F98BB969E}"
@@ -30,6 +32,10 @@ Global
 		{AC2C9AC3-61C0-4781-AF6A-BCA0832FD5CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC2C9AC3-61C0-4781-AF6A-BCA0832FD5CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC2C9AC3-61C0-4781-AF6A-BCA0832FD5CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF2004D4-705C-4941-87C4-B1ED0317F8F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF2004D4-705C-4941-87C4-B1ED0317F8F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF2004D4-705C-4941-87C4-B1ED0317F8F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF2004D4-705C-4941-87C4-B1ED0317F8F8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{76B066D6-78DB-481B-953D-1DA8526D9B71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{76B066D6-78DB-481B-953D-1DA8526D9B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76B066D6-78DB-481B-953D-1DA8526D9B71}.Release|Any CPU.ActiveCfg = Release|Any CPU

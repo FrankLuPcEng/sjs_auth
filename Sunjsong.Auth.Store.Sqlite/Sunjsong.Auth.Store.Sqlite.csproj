@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Sunjsong.Auth.Store.Sqlite</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Sunjsong</Authors>
+    <Description>SQLite-backed RBAC store for Sunjsong applications.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sunjsong.Auth.Abstractions\Sunjsong.Auth.Abstractions.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+  </ItemGroup>
+</Project>
