@@ -10,7 +10,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
 {
     private readonly IAuthorizationService _authorizationService;
     private readonly IUserContext _userContext;
-    private readonly IRbacStore _rbacStore;
+    private readonly IRbacStoreReader _rbacStore;
     private readonly IPermissionCatalog _permissionCatalog;
     private RbacSnapshot _snapshot = new();
     private string? _selectedUserId;
@@ -21,7 +21,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public MainViewModel(
         IAuthorizationService authorizationService,
         IUserContext userContext,
-        IRbacStore rbacStore,
+        IRbacStoreReader rbacStore,
         IPermissionCatalog permissionCatalog)
     {
         _authorizationService = authorizationService;

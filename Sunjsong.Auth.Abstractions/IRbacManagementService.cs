@@ -1,15 +1,6 @@
 namespace Sunjsong.Auth.Abstractions;
 
-public interface IRbacStoreReader
-{
-    Task<RbacSnapshot> LoadAsync(CancellationToken ct = default);
-}
-
-public interface IRbacStore : IRbacStoreReader
-{
-}
-
-public interface IRbacStoreWriter
+public interface IRbacManagementService
 {
     Task<User> CreateUserAsync(UserUpsertInput input, CancellationToken ct = default);
     Task<User> UpdateUserAsync(UserUpsertInput input, CancellationToken ct = default);
@@ -30,8 +21,4 @@ public interface IRbacStoreWriter
     Task<RolePermission> UpdateRolePermissionAsync(RolePermissionKey key, RolePermissionUpsertInput input, CancellationToken ct = default);
     Task DeleteRolePermissionAsync(RolePermissionKey key, CancellationToken ct = default);
     Task<RbacPageResult<RolePermission>> QueryRolePermissionsAsync(RolePermissionQuery query, CancellationToken ct = default);
-}
-
-public interface IRbacRepository : IRbacStoreReader, IRbacStoreWriter
-{
 }

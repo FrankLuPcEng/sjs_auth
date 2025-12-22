@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
         setup(options);
         services.AddSingleton(options);
         services.AddSingleton<IRbacStore, JsonRbacStore>();
+        services.AddSingleton<IRbacStoreReader>(sp => sp.GetRequiredService<IRbacStore>());
         return services;
     }
 }
