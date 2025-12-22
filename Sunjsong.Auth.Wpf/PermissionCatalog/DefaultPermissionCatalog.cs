@@ -8,6 +8,8 @@ public sealed class DefaultPermissionCatalog : IPermissionCatalog
     {
         return new[]
         {
+            new PermissionDefinition { Key = "Root.Read", Name = "原廠檢視權限" },
+            new PermissionDefinition { Key = "Root.Write", Name = "原廠編輯權限" },
             new PermissionDefinition { Key = "User.Read", Name = "檢視使用者" },
             new PermissionDefinition { Key = "User.Write", Name = "編輯使用者" },
             new PermissionDefinition { Key = "Role.Read", Name = "檢視角色" },

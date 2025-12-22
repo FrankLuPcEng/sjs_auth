@@ -4,6 +4,7 @@ using Sunjsong.Auth.Core;
 using Sunjsong.Auth.Store.Sqlite;
 using Sunjsong.Auth.WpfUI.Options;
 using Sunjsong.Auth.WpfUI.PermissionCatalog;
+using Sunjsong.Auth.WpfUI.Services;
 using Sunjsong.Auth.WpfUI.ViewModels;
 
 namespace Sunjsong.Auth.WpfUI.Services;
@@ -29,8 +30,12 @@ public static class UserManagementServiceCollectionExtensions
         services.AddSingleton<IRbacStoreWriter>(sp => sp.GetRequiredService<SqliteRbacRepository>());
         services.AddSingleton<IRbacManagementService, RbacManagementService>();
 
+        services.AddSingleton<ILocalAccountService, LocalAccountService>();
+
         services.AddSingleton<UserManagementViewModel>();
+        services.AddTransient<AccountManagementViewModel>();
         services.AddSingleton<UserManagementWindow>();
+        services.AddTransient<AccountManagementWindow>();
 
         return services;
     }

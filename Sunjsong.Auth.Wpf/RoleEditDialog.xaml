@@ -1,0 +1,60 @@
+<ui:FluentWindow x:Class="Sunjsong.Auth.WpfUI.RoleEditDialog"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:ui="clr-namespace:Wpf.Ui.Controls;assembly=Wpf.Ui"
+                 xmlns:uiMarkup="clr-namespace:Wpf.Ui.Markup;assembly=Wpf.Ui"
+                 xmlns:vm="clr-namespace:Sunjsong.Auth.WpfUI.ViewModels"
+                 mc:Ignorable="d"
+                 Title="編輯角色"
+                 Width="520"
+                 Height="640"
+                 WindowStartupLocation="CenterOwner"
+                 WindowBackdropType="Mica"
+                 ExtendsContentIntoTitleBar="True"
+                 ResizeMode="NoResize"
+                 ShowInTaskbar="False">
+    <ui:FluentWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <uiMarkup:ThemesDictionary Theme="Light" />
+                <uiMarkup:ControlsDictionary />
+                <ResourceDictionary Source="themes/Modern.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <HierarchicalDataTemplate DataType="{x:Type vm:PermissionTreeNode}" ItemsSource="{Binding Children}">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Name}" Margin="6,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </HierarchicalDataTemplate>
+        </ResourceDictionary>
+    </ui:FluentWindow.Resources>
+
+    <Grid Margin="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="編輯角色" FontSize="18" FontWeight="Bold" />
+            <TextBlock Text="調整角色名稱並勾選權限；階層依權限代碼自動整理。" Foreground="#77000000" Margin="0,0,0,8" />
+            <TextBlock Text="角色名稱" FontWeight="SemiBold" />
+            <TextBox Text="{Binding RoleName, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,8" />
+            <TextBlock Text="權限" FontWeight="SemiBold" />
+        </StackPanel>
+
+        <Border Grid.Row="1" BorderBrush="#22000000" BorderThickness="1" CornerRadius="8" Padding="6">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TreeView ItemsSource="{Binding Nodes}" />
+            </ScrollViewer>
+        </Border>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="取消" IsCancel="True" Width="90" Margin="0,0,8,0" />
+            <Button Content="套用" IsDefault="True" Width="90" Click="OnSaveClick" />
+        </StackPanel>
+    </Grid>
+</ui:FluentWindow>

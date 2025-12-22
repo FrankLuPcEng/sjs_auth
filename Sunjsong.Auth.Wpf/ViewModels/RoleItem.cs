@@ -6,6 +6,7 @@ public sealed class RoleItem : ObservableObject
 {
     private string _id = string.Empty;
     private string _name = string.Empty;
+    private bool _isRoot;
 
     public string Id
     {
@@ -17,5 +18,11 @@ public sealed class RoleItem : ObservableObject
     {
         get => _name;
         set => SetProperty(ref _name, value);
+    }
+
+    public bool IsRoot
+    {
+        get => _isRoot;
+        set => SetProperty(ref _isRoot, value);
     }
 }

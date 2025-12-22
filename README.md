@@ -9,6 +9,26 @@ A lightweight RBAC (role-based access control) toolkit with pluggable stores.
 - **Sunjsong.Auth.Store.Json**: JSON-backed RBAC store.
 - **Sunjsong.Auth.Store.Sqlite**: SQLite-backed RBAC store with CRUD support.
 - **RbacWpfDemo**: sample WPF demo app.
+- **Sunjsong.Auth.Wpf**: standalone WPF user/role manager (Wpf.Ui, SQLite).
+
+## Quick start
+
+1) 安裝 .NET 8 SDK，clone 後在倉庫根目錄執行：
+   ```bash
+   dotnet restore
+   dotnet build
+   ```
+2) 運行 WPF 管理工具（預設使用 SQLite 檔案）：  
+   ```bash
+   dotnet run --project Sunjsong.Auth.Wpf
+   ```
+3) 在自己專案中引用核心套件（示例用 SQLite）：  
+   ```csharp
+   services.AddSunjsongAuthorizationCore();
+   services.AddSunjsongAuthorizationSqliteStore(opts => opts.DatabasePath = "rbac.db");
+   services.AddSingleton<IPermissionCatalog, MyPermissionCatalog>();
+   ```
+   設定 `IUserContext.CurrentUserId` 後呼叫 `authorizationService.RefreshAsync()` 並使用 `Can/Demand` 進行權限判斷。
 
 ## Usage
 
