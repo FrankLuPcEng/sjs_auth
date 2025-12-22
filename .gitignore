@@ -1,0 +1,115 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vs/
+.idea/
+.fleet/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.userprefs
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Bb]uild/
+[Bb]ld/
+[Dd]ebug*/
+[Rr]elease*/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Ww][Ii][Nn]32/
+build/
+out/
+artifacts/
+Binaries/
+[Bb]enchmarkDotNet.Artifacts/
+[Tt]est[Rr]esult*/
+
+# Generated files
+*.pdb
+*.obj
+*.pch
+*.ilk
+*.ipdb
+*.iobj
+*.opendb
+*.cache
+*.tlog
+*.lastcodeanalysissucceeded
+*.wrn
+*.err
+*.tmp
+*.temp
+*.log
+*.svclog
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.assets.json
+*.nuget.props
+*.nuget.targets
+nuget.exe
+
+# Publish artifacts
+[Pp]ublishProfiles/
+*.pubxml
+*.pubxml.user
+*.publishsettings
+
+# ReSharper / Rider
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Coverage and analysis
+*.coverage
+*.coveragexml
+*.opencover.xml
+.coverage/
+.coveragexml/
+coverage*/
+
+# Databases
+*.mdf
+*.ldf
+*.ndf
+*.dbmdl
+
+# Tools and caches
+*.psess
+*.vsp
+*.vspx
+*.sap
+*.sap_proj
+*.sln.iml
+*.ncrunch*
+.*crunch*.local.xml
+_NCrunch_*/
+
+# Package managers
+node_modules/
+bower_components/
+
+# Misc
+*.orig
+*.bak
+*.swp
+*.orig.*
+*$tf*/
