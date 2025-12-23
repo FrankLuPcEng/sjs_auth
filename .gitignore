@@ -113,3 +113,4 @@ bower_components/
 *.swp
 *.orig.*
 *$tf*/
+/.vscode

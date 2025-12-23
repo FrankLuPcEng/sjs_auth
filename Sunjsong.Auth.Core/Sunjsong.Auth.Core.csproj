@@ -3,8 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>Sunjsong.Auth.Core</PackageId>
-    <Version>0.1.0</Version>
+    <PackageId>Sunjsong.Auth.Core</PackageId>   
     <Authors>Sunjsong</Authors>
     <Description>Core RBAC authorization services for Sunjsong applications.</Description>
   </PropertyGroup>

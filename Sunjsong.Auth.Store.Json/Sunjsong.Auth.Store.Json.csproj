@@ -3,8 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>Sunjsong.Auth.Store.Json</PackageId>
-    <Version>0.1.0</Version>
+    <PackageId>Sunjsong.Auth.Store.Json</PackageId>   
     <Authors>Sunjsong</Authors>
     <Description>JSON-backed RBAC store for Sunjsong applications.</Description>
   </PropertyGroup>
