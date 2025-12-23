@@ -32,8 +32,36 @@ jobs:
       - name: Test
         run: dotnet test --configuration Release --no-build --verbosity normal
 
+      # ✅ 新增：計算 CI 版本
+      - name: Compute PackageVersion (CI)
+        id: ver
+        shell: pwsh
+        run: |
+          # 你可以把這個改成你想要的基底版本
+          $prefix = "1.0.0"
+
+          $branch = "${env:GITHUB_REF_NAME}".ToLower()
+          $run = "${env:GITHUB_RUN_NUMBER}"
+          $sha = "${env:GITHUB_SHA}".Substring(0,7)
+
+          if ($branch -eq "main") {
+            $pkg = "$prefix-ci.$run"
+          } else {
+            # feature/xxx -> feature-xxx
+            $safeBranch = ($branch -replace '/', '-') -replace '[^0-9a-z\-]', '-'
+            $pkg = "$prefix-$safeBranch.$run"
+          }
+
+          "packageVersion=$pkg" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sha7=$sha" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          Write-Host "PackageVersion = $pkg"
+          Write-Host "SHA7          = $sha"
+
+      # ✅ 修改：pack 時強制所有專案用同一個版本
       - name: Pack (CI pre-release version)
-        run: dotnet pack --configuration Release --no-build --output ./artifacts/nuget
+        run: >
+          dotnet pack --configuration Release --no-build --output ./artifacts/nuget
+          /p:PackageVersion=${{ steps.ver.outputs.packageVersion }}
 
       - name: Upload NuGet artifacts
         uses: actions/upload-artifact@v4
