@@ -1,16 +1,24 @@
 mode: Mainline
+next-version: 1.0.0
+tag-prefix: '[vV]'
 
 branches:
   main:
     regex: ^main$
     increment: Patch
-    tag: ''
+    label: ''
 
   feature:
     regex: ^feature[/-]
-    tag: useBranchName
     increment: Inherit
+    label: useBranchName
     source-branches: ['main']
+
+  pull-request:
+    regex: ^pull[/-]
+    increment: Inherit
+    label: PR
+    source-branches: ['main', 'feature']
 
 ignore:
   sha: []
