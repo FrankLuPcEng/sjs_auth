@@ -10,6 +10,7 @@ public sealed class UserItem : ObservableObject
     private string _description = string.Empty;
     private string _roleName = string.Empty;
     private bool _isRoot;
+    private bool _isAdmin;
     private bool _isEnabled = true;
     private string? _selectedRoleId;
 
@@ -53,6 +54,12 @@ public sealed class UserItem : ObservableObject
     {
         get => _isRoot;
         set => SetProperty(ref _isRoot, value);
+    }
+
+    public bool IsAdmin
+    {
+        get => _isAdmin;
+        set => SetProperty(ref _isAdmin, value);
     }
 
     public string? SelectedRoleId

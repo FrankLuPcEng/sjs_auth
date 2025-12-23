@@ -33,6 +33,7 @@ public static class UserManagementServiceCollectionExtensions
         services.AddSingleton<ILocalAccountService, LocalAccountService>();
 
         services.AddSingleton<UserManagementViewModel>();
+        services.AddTransient<LoginDialog>();
         services.AddTransient<AccountManagementViewModel>();
         services.AddSingleton<UserManagementWindow>();
         services.AddTransient<AccountManagementWindow>();

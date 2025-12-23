@@ -12,4 +12,8 @@ public sealed class UserManagementOptions
     public string WindowTitle { get; set; } = "使用者管理";
 
     public IPermissionCatalog? PermissionCatalog { get; set; }
+
+    public string? CurrentUserName { get; set; } = "Guest";
+
+    public string? CurrentRoleName { get; set; } = "Guest";
 }

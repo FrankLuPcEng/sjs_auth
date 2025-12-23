@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Sunjsong.Auth.Abstractions;
 using Sunjsong.Auth.WpfUI.Options;
 using Sunjsong.Auth.WpfUI.Services;
+using System.Collections.ObjectModel;
 
 namespace Sunjsong.Auth.WpfUI.ViewModels;
 
@@ -16,11 +12,11 @@ public sealed class UserManagementViewModel : ObservableObject
     private const string RootUserId = "root";
     private const string RootRoleId = "root-role";
     private const string RootName = "ROOT";
-    private const string RootDefaultPassword = "Root@123!";
+    private const string RootDefaultPassword = "root123456";
     private const string AdminUserId = "admin";
     private const string AdminRoleId = "admin-role";
-    private const string AdminName = "ADMIN";
-    private const string AdminDefaultPassword = "Admin@123!";
+    private const string AdminName = "Administrator";
+    private const string AdminDefaultPassword = "admin123";
 
     private readonly IRbacRepository _repository;
     private readonly IPermissionCatalog _permissionCatalog;
@@ -34,6 +30,8 @@ public sealed class UserManagementViewModel : ObservableObject
     private List<UserRole> _userRoles = new();
     private List<RolePermission> _rolePermissions = new();
 
+    public string CurrentIdentity { get; }
+
     public UserManagementViewModel(
         IRbacRepository repository,
         IPermissionCatalog permissionCatalog,
@@ -44,6 +42,7 @@ public sealed class UserManagementViewModel : ObservableObject
         _permissionCatalog = permissionCatalog;
         _options = options;
         _accounts = accounts;
+        CurrentIdentity = BuildCurrentIdentity(options);
 
         Users = new ObservableCollection<UserItem>();
         Roles = new ObservableCollection<RoleItem>();
@@ -151,6 +150,7 @@ public sealed class UserManagementViewModel : ObservableObject
                 Description = account?.DisplayName ?? user.Name,
                 RoleName = roleName,
                 IsRoot = string.Equals(user.Id, RootUserId, StringComparison.OrdinalIgnoreCase),
+                IsAdmin = string.Equals(user.Id, AdminUserId, StringComparison.OrdinalIgnoreCase),
                 IsEnabled = account?.IsEnabled ?? true,
                 SelectedRoleId = assignedRole
             });
@@ -159,7 +159,13 @@ public sealed class UserManagementViewModel : ObservableObject
         Roles.Clear();
         foreach (var role in snapshot.Roles.OrderBy(r => r.Name, StringComparer.OrdinalIgnoreCase))
         {
-            Roles.Add(new RoleItem { Id = role.Id, Name = role.Name, IsRoot = string.Equals(role.Id, RootRoleId, StringComparison.OrdinalIgnoreCase) });
+            Roles.Add(new RoleItem
+            {
+                Id = role.Id,
+                Name = role.Name,
+                IsRoot = string.Equals(role.Id, RootRoleId, StringComparison.OrdinalIgnoreCase),
+                IsAdmin = string.Equals(role.Id, AdminRoleId, StringComparison.OrdinalIgnoreCase)
+            });
         }
 
         _userRoles = snapshot.UserRoles.ToList();
@@ -275,9 +281,9 @@ public sealed class UserManagementViewModel : ObservableObject
         {
             return;
         }
-        if (target.IsRoot)
+        if (target.IsRoot || target.IsAdmin)
         {
-            StatusMessage = "ROOT cannot be modified";
+            StatusMessage = target.IsRoot ? "ROOT cannot be modified" : "ADMIN cannot be modified";
             return;
         }
 
@@ -336,6 +342,11 @@ public sealed class UserManagementViewModel : ObservableObject
         {
             return;
         }
+        if (target.IsRoot || target.IsAdmin)
+        {
+            StatusMessage = target.IsRoot ? "ROOT cannot be modified" : "ADMIN cannot be modified";
+            return;
+        }
 
         var targetRoleId = target.SelectedRoleId;
         var existingRoleIds = _userRoles.Where(link => link.UserId == target.Id)
@@ -371,9 +382,9 @@ public sealed class UserManagementViewModel : ObservableObject
         {
             return;
         }
-        if (target.IsRoot)
+        if (target.IsRoot || target.IsAdmin)
         {
-            StatusMessage = "ROOT cannot be modified";
+            StatusMessage = target.IsRoot ? "ROOT cannot be modified" : "ADMIN cannot be modified";
             return;
         }
 
@@ -390,9 +401,9 @@ public sealed class UserManagementViewModel : ObservableObject
         {
             return;
         }
-        if (target.IsRoot)
+        if (target.IsRoot || target.IsAdmin)
         {
-            StatusMessage = "ROOT cannot be modified";
+            StatusMessage = target.IsRoot ? "ROOT cannot be modified" : "ADMIN cannot be modified";
             return;
         }
 
@@ -496,7 +507,7 @@ public sealed class UserManagementViewModel : ObservableObject
             Name = name
         });
 
-        var item = new RoleItem { Id = role.Id, Name = role.Name, IsRoot = false };
+        var item = new RoleItem { Id = role.Id, Name = role.Name, IsRoot = false, IsAdmin = string.Equals(role.Id, AdminRoleId, StringComparison.OrdinalIgnoreCase) };
         Roles.Add(item);
         SelectedRole = item;
         StatusMessage = $"Added role {role.Name}";
@@ -506,6 +517,11 @@ public sealed class UserManagementViewModel : ObservableObject
     {
         if (SelectedRole is null)
         {
+            return;
+        }
+        if (IsRootRole(SelectedRole) || SelectedRole.IsAdmin)
+        {
+            StatusMessage = SelectedRole.IsRoot ? "ROOT role cannot be modified" : "ADMIN role cannot be modified";
             return;
         }
 
@@ -523,9 +539,11 @@ public sealed class UserManagementViewModel : ObservableObject
     public async Task SaveRoleWithPermissionsAsync(RoleItem role, string roleName, IEnumerable<string> selectedKeys)
     {
         ArgumentNullException.ThrowIfNull(role);
-        if (string.Equals(role.Id, RootRoleId, StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(role.Id, RootRoleId, StringComparison.OrdinalIgnoreCase) || string.Equals(role.Id, AdminRoleId, StringComparison.OrdinalIgnoreCase))
         {
-            StatusMessage = "ROOT role cannot be modified";
+            StatusMessage = string.Equals(role.Id, RootRoleId, StringComparison.OrdinalIgnoreCase)
+                ? "ROOT role cannot be modified"
+                : "ADMIN role cannot be modified";
             return;
         }
 
@@ -551,6 +569,11 @@ public sealed class UserManagementViewModel : ObservableObject
     {
         if (SelectedRole is null)
         {
+            return;
+        }
+        if (IsRootRole(SelectedRole) || SelectedRole.IsAdmin)
+        {
+            StatusMessage = SelectedRole.IsRoot ? "ROOT role cannot be modified" : "ADMIN role cannot be modified";
             return;
         }
 
@@ -689,7 +712,30 @@ public sealed class UserManagementViewModel : ObservableObject
     private bool CanExecuteUserCommand(UserItem? user)
     {
         var target = user ?? SelectedUser;
-        return !IsBusy && target is not null && !target.IsRoot;
+        return !IsBusy && target is not null && !target.IsRoot && !target.IsAdmin;
+    }
+
+    private static string BuildCurrentIdentity(UserManagementOptions options)
+    {
+        var user = options.CurrentUserName?.Trim();
+        var role = options.CurrentRoleName?.Trim();
+
+        if (!string.IsNullOrWhiteSpace(user) && !string.IsNullOrWhiteSpace(role))
+        {
+            return $"目前身份：{user}（{role}）";
+        }
+
+        if (!string.IsNullOrWhiteSpace(user))
+        {
+            return $"目前身份：{user}";
+        }
+
+        if (!string.IsNullOrWhiteSpace(role))
+        {
+            return $"目前角色：{role}";
+        }
+
+        return "目前身份：未設定";
     }
 
     private bool IsRootRole(RoleItem role) => string.Equals(role.Id, RootRoleId, StringComparison.OrdinalIgnoreCase);

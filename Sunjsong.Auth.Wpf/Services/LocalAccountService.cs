@@ -9,6 +9,8 @@ public interface ILocalAccountService
 {
     // User-linked operations
     Task<LocalAccountRecord?> GetByUserIdAsync(string userId, CancellationToken ct = default);
+    Task<LocalAccountRecord?> GetByUserNameAsync(string userName, CancellationToken ct = default);
+    Task<LocalAccountRecord?> AuthenticateAsync(string userName, string password, CancellationToken ct = default);
     Task<LocalAccountRecord> UpsertAsync(string userId, string userName, string displayName, string? newPassword, bool isEnabled = true, CancellationToken ct = default);
     Task ChangePasswordAsync(string userId, string oldPassword, string newPassword, CancellationToken ct = default);
     Task DeleteByUserIdAsync(string userId, CancellationToken ct = default);
@@ -114,6 +116,79 @@ public sealed class LocalAccountService : ILocalAccountService
                 reader.GetString(2),
                 reader.GetString(3),
                 reader.GetBoolean(4),
+                reader.GetDateTimeOffset(7),
+                reader.GetDateTimeOffset(8));
+        }
+
+        return null;
+    }
+
+    public async Task<LocalAccountRecord?> GetByUserNameAsync(string userName, CancellationToken ct = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userName);
+
+        await using var connection = await OpenConnectionAsync(ct);
+        await using var command = connection.CreateCommand();
+        command.CommandText = """
+            SELECT Id, UserId, UserName, DisplayName, IsEnabled, CreatedAt, UpdatedAt
+            FROM LocalAccounts
+            WHERE UserName = $userName;
+            """;
+        command.Parameters.AddWithValue("$userName", userName);
+
+        await using var reader = await command.ExecuteReaderAsync(ct);
+        if (await reader.ReadAsync(ct))
+        {
+            return new LocalAccountRecord(
+                reader.GetString(0),
+                reader.GetString(1),
+                reader.GetString(2),
+                reader.GetString(3),
+                reader.GetBoolean(4),
+                reader.GetDateTimeOffset(5),
+                reader.GetDateTimeOffset(6));
+        }
+
+        return null;
+    }
+
+    public async Task<LocalAccountRecord?> AuthenticateAsync(string userName, string password, CancellationToken ct = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(password);
+
+        await using var connection = await OpenConnectionAsync(ct);
+        await using var command = connection.CreateCommand();
+        command.CommandText = """
+            SELECT Id, UserId, UserName, DisplayName, IsEnabled, PasswordHash, Salt, CreatedAt, UpdatedAt
+            FROM LocalAccounts
+            WHERE UserName = $userName
+            LIMIT 1;
+            """;
+        command.Parameters.AddWithValue("$userName", userName);
+
+        await using var reader = await command.ExecuteReaderAsync(ct);
+        if (await reader.ReadAsync(ct))
+        {
+            var isEnabled = reader.GetBoolean(4);
+            if (!isEnabled)
+            {
+                return null;
+            }
+
+            var hash = reader.GetString(5);
+            var salt = reader.GetString(6);
+            if (!PasswordHasher.Verify(password, hash, salt))
+            {
+                return null;
+            }
+
+            return new LocalAccountRecord(
+                reader.GetString(0),
+                reader.GetString(1),
+                reader.GetString(2),
+                reader.GetString(3),
+                isEnabled,
                 reader.GetDateTimeOffset(7),
                 reader.GetDateTimeOffset(8));
         }

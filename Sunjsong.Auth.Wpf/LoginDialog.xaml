@@ -1,0 +1,60 @@
+<ui:FluentWindow x:Class="Sunjsong.Auth.WpfUI.LoginDialog"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:ui="clr-namespace:Wpf.Ui.Controls;assembly=Wpf.Ui"
+                 xmlns:uiMarkup="clr-namespace:Wpf.Ui.Markup;assembly=Wpf.Ui"
+                 mc:Ignorable="d"
+                 Title="登入"
+                 Width="420"
+                 Height="360"
+                 WindowStartupLocation="CenterOwner"
+                 WindowBackdropType="None"
+                 ExtendsContentIntoTitleBar="True"
+                 ResizeMode="CanResizeWithGrip"
+                 ShowInTaskbar="False">
+    <ui:FluentWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <uiMarkup:ThemesDictionary Theme="Light" />
+                <uiMarkup:ControlsDictionary />
+                <ResourceDictionary Source="themes/Modern.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ui:FluentWindow.Resources>
+
+    <Grid Margin="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Grid.Row="0" Title="登入" />
+
+        <StackPanel Grid.Row="1">
+            <Border Height="48" Margin="0,0,0,10" Background="#09000000" CornerRadius="8" BorderBrush="#12000000" BorderThickness="1">
+                <Grid>
+                    <!-- Logo 位置：替換成 Image 即可 -->
+                    <TextBlock Text="LOGO" Foreground="#88000000" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+                </Grid>
+            </Border>
+            <TextBlock Text="請輸入帳號與密碼" FontSize="18" FontWeight="Bold" />
+            <TextBlock Text="帳號對應使用者資料與角色。" Foreground="#77000000" Margin="0,0,0,10" />
+
+            <TextBlock Text="帳號" FontWeight="SemiBold" />
+            <TextBox Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,10" />
+
+            <TextBlock Text="密碼" FontWeight="SemiBold" />
+            <PasswordBox PasswordChanged="OnPasswordChanged" Margin="0,4,0,6" />
+
+            <TextBlock Text="{Binding Error}" Foreground="#CCB00000" FontWeight="SemiBold" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="取消" IsCancel="True" Width="90" Margin="0,0,8,0" />
+            <Button Content="登入" IsDefault="True" Width="90" Click="OnLoginClick" />
+        </StackPanel>
+    </Grid>
+</ui:FluentWindow>

@@ -1,17 +1,18 @@
-<ui:FluentWindow x:Class="Sunjsong.Auth.WpfUI.UserManagementWindow"
-                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:ui="clr-namespace:Wpf.Ui.Controls;assembly=Wpf.Ui"
-                 xmlns:uiMarkup="clr-namespace:Wpf.Ui.Markup;assembly=Wpf.Ui"
-                 mc:Ignorable="d"
-                 Title="{Binding WindowTitle}"
-                 Height="720"
-                 Width="1200"
-                 WindowStartupLocation="CenterScreen"
-                 WindowBackdropType="Mica"
-                 ExtendsContentIntoTitleBar="True">
+<ui:FluentWindow
+    x:Class="Sunjsong.Auth.WpfUI.UserManagementWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="clr-namespace:Wpf.Ui.Controls;assembly=Wpf.Ui"
+    xmlns:uiMarkup="clr-namespace:Wpf.Ui.Markup;assembly=Wpf.Ui"
+    Title="{Binding WindowTitle}"
+    Width="1200"
+    Height="720"
+    ExtendsContentIntoTitleBar="True"
+    WindowBackdropType="Mica"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
     <ui:FluentWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,6 +21,32 @@
                 <ResourceDictionary Source="themes/Modern.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <SolidColorBrush x:Key="BtnGreen" Color="#16A34A" />
+            <SolidColorBrush x:Key="BtnRed" Color="#DC2626" />
+            <SolidColorBrush x:Key="BtnBlue" Color="#2563EB" />
+            <Style x:Key="SolidButton" TargetType="Button">
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border
+                                x:Name="border"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="4">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="border" Property="Background" Value="#CCCCCC" />
+                                    <Setter Property="Foreground" Value="#666666" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style x:Key="LeftTabControlStyle" TargetType="TabControl">
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="BorderThickness" Value="0" />
@@ -31,18 +58,21 @@
                                     <ColumnDefinition Width="200" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0"
-                                        BorderBrush="#11000000"
-                                        BorderThickness="0,0,1,0">
-                                    <StackPanel x:Name="HeaderPanel"
-                                                IsItemsHost="True"
-                                                Margin="0"
-                                                Orientation="Vertical" />
+                                <Border
+                                    Grid.Column="0"
+                                    BorderBrush="#11000000"
+                                    BorderThickness="0,0,1,0">
+                                    <StackPanel
+                                        x:Name="HeaderPanel"
+                                        Margin="0"
+                                        IsItemsHost="True"
+                                        Orientation="Vertical" />
                                 </Border>
-                                <ContentPresenter x:Name="PART_SelectedContentHost"
-                                                  Grid.Column="1"
-                                                  ContentSource="SelectedContent"
-                                                  Margin="{TemplateBinding Padding}" />
+                                <ContentPresenter
+                                    x:Name="PART_SelectedContentHost"
+                                    Grid.Column="1"
+                                    Margin="{TemplateBinding Padding}"
+                                    ContentSource="SelectedContent" />
                             </Grid>
                         </ControlTemplate>
                     </Setter.Value>
@@ -58,15 +88,19 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ui:TitleBar Grid.Row="0" Title="{Binding WindowTitle}" />
+        <ui:TitleBar Title="{Binding WindowTitle}" Grid.Row="0" />
 
-        <TabControl Grid.Row="1"
-                    Margin="12"
-                    Style="{StaticResource LeftTabControlStyle}">
+        <TabControl
+            Grid.Row="1"
+            Margin="12"
+            Style="{StaticResource LeftTabControlStyle}">
             <TabItem>
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" Margin="0,4">
-                        <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" Margin="0,0,6,0" />
+                    <StackPanel Margin="0,4" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,6,0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Text="&#xE77B;" />
                         <TextBlock Text="使用者管理" />
                     </StackPanel>
                 </TabItem.Header>
@@ -75,87 +109,167 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-
-                    <StackPanel>
-                        <TextBlock Text="使用者" FontSize="18" FontWeight="Bold" />
-                        <TextBlock Text="管理使用者帳號、名稱、描述與角色指派；ROOT 無法編輯或刪除。" Foreground="#77000000" Margin="0,0,0,6" />
-                        <StackPanel Orientation="Horizontal">
-                            <Button Width="110" Click="OnAddUserClick" Background="#16A34A" Foreground="White" Padding="12,6">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" Margin="0,0,6,0" />
-                                    <TextBlock Text="新增" />
-                                </StackPanel>
-                            </Button>
-                            <Button Width="110" Margin="8,0,0,0" Command="{Binding DeleteUserCommand}" Background="#DC2626" Foreground="White" Padding="12,6">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,6,0" />
-                                    <TextBlock Text="刪除" />
-                                </StackPanel>
-                            </Button>
-                            <Button Width="120" Margin="8,0,0,0" Command="{Binding RefreshCommand}" Background="#2563EB" Foreground="White" Padding="12,6">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" Margin="0,0,6,0" />
-                                    <TextBlock Text="重新整理" />
-                                </StackPanel>
-                            </Button>
-                            <ProgressBar Width="120"
-                                         Height="8"
-                                         Margin="8,0,0,0"
-                                         VerticalAlignment="Center"
-                                         Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                         IsIndeterminate="True" />
+                    <Border Padding="14" CornerRadius="10">
+                        <StackPanel>
+                            <TextBlock
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Text="使用者" />
+                            <TextBlock
+                                Margin="0,0,0,6"
+                                Foreground="#77000000"
+                                Text="管理使用者帳號、名稱、描述與角色指派；ROOT 無法編輯或刪除。" />
+                            <TextBlock
+                                Margin="0,0,0,10"
+                                Foreground="#99000000"
+                                Text="{Binding CurrentIdentity}" />
+                            <StackPanel Orientation="Horizontal">
+                                <Button
+                                    Width="110"
+                                    Padding="12,6"
+                                    Background="{StaticResource BtnGreen}"
+                                    Click="OnAddUserClick"
+                                    Style="{StaticResource SolidButton}">
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="0,0,6,0"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Text="&#xE710;" />
+                                        <TextBlock Text="新增" />
+                                    </StackPanel>
+                                </Button>
+                                <Button
+                                    Width="110"
+                                    Margin="8,0,0,0"
+                                    Padding="12,6"
+                                    Background="{StaticResource BtnRed}"
+                                    Command="{Binding DeleteUserCommand}"
+                                    Style="{StaticResource SolidButton}">
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="0,0,6,0"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Text="&#xE74D;" />
+                                        <TextBlock Text="刪除" />
+                                    </StackPanel>
+                                </Button>
+                                <Button
+                                    Width="120"
+                                    Margin="8,0,0,0"
+                                    Padding="12,6"
+                                    Background="{StaticResource BtnBlue}"
+                                    Command="{Binding RefreshCommand}"
+                                    Style="{StaticResource SolidButton}">
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="0,0,6,0"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Text="&#xE72C;" />
+                                        <TextBlock Text="重新整理" />
+                                    </StackPanel>
+                                </Button>
+                                <ProgressBar
+                                    Width="120"
+                                    Height="8"
+                                    Margin="8,0,0,0"
+                                    VerticalAlignment="Center"
+                                    IsIndeterminate="True"
+                                    Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-
-                    <DataGrid Grid.Row="1"
-                              ItemsSource="{Binding Users}"
-                              SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                              AutoGenerateColumns="False"
-                              HeadersVisibility="Column"
-                              RowHeaderWidth="0"
-                              IsReadOnly="False"
-                              CanUserAddRows="False"
-                              Margin="0,6,0,0">
+                    </Border>
+                    <DataGrid
+                        Grid.Row="1"
+                        Margin="0,6,0,0"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        HeadersVisibility="Column"
+                        IsReadOnly="False"
+                        ItemsSource="{Binding Users}"
+                        RowHeaderWidth="0"
+                        SelectedItem="{Binding SelectedUser, Mode=TwoWay}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="2*" IsReadOnly="True" />
-                            <DataGridTextColumn Binding="{Binding AccountUserName}" Header="帳號" Width="1.6*" IsReadOnly="True" />
-                            <DataGridTextColumn Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Header="名稱" Width="1.6*" />
-                            <DataGridTextColumn Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Header="說明" Width="1.8*" />
-                            <DataGridTextColumn Binding="{Binding RoleName}" Header="角色" Width="1.3*" IsReadOnly="True" />
-                            <DataGridCheckBoxColumn Binding="{Binding IsEnabled, Mode=TwoWay}" Header="啟用" Width="0.8*" />
-                            <DataGridTemplateColumn Header="操作" Width="1.6*">
+                            <DataGridTextColumn
+                                Width="2*"
+                                Binding="{Binding Id}"
+                                Header="ID"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="1.6*"
+                                Binding="{Binding AccountUserName}"
+                                Header="帳號"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="1.6*"
+                                Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                Header="名稱" />
+                            <DataGridTextColumn
+                                Width="1.8*"
+                                Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                Header="說明" />
+                            <DataGridTextColumn
+                                Width="1.3*"
+                                Binding="{Binding RoleName}"
+                                Header="角色"
+                                IsReadOnly="True" />
+                            <DataGridCheckBoxColumn
+                                Width="0.8*"
+                                Binding="{Binding IsEnabled, Mode=TwoWay}"
+                                Header="啟用" />
+                            <DataGridTemplateColumn Width="1.6*" Header="操作">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Margin="0,0,4,0" Click="OnEditUserClick" Background="#2563EB" Foreground="White" Padding="10,4">
+                                            <Button
+                                                Margin="0,0,4,0"
+                                                Padding="10,4"
+                                                Background="{StaticResource BtnBlue}"
+                                                Click="OnEditUserClick">
                                                 <Button.Style>
-                                                    <Style TargetType="Button">
+                                                    <Style BasedOn="{StaticResource SolidButton}" TargetType="Button">
                                                         <Setter Property="Visibility" Value="Visible" />
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsRoot}" Value="True">
                                                                 <Setter Property="Visibility" Value="Collapsed" />
                                                             </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAdmin}" Value="True">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Button.Style>
-                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                    <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" Margin="0,0,4,0" />
+                                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock
+                                                        Margin="0,0,4,0"
+                                                        FontFamily="Segoe MDL2 Assets"
+                                                        Text="&#xE70F;" />
                                                     <TextBlock Text="修改" />
                                                 </StackPanel>
                                             </Button>
-                                            <Button Margin="0,0,4,0" Click="OnChangePasswordClick" Background="#D97706" Foreground="White" Padding="10,4">
+                                            <Button
+                                                Margin="0,0,4,0"
+                                                Padding="10,4"
+                                                Background="#D97706"
+                                                Click="OnChangePasswordClick"
+                                                Foreground="White">
                                                 <Button.Style>
-                                                    <Style TargetType="Button">
+                                                    <Style BasedOn="{StaticResource SolidButton}" TargetType="Button">
                                                         <Setter Property="Visibility" Value="Visible" />
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsRoot}" Value="True">
                                                                 <Setter Property="Visibility" Value="Collapsed" />
                                                             </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAdmin}" Value="True">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Button.Style>
-                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                    <TextBlock Text="&#xE72E;" FontFamily="Segoe MDL2 Assets" Margin="0,0,4,0" />
+                                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock
+                                                        Margin="0,0,4,0"
+                                                        FontFamily="Segoe MDL2 Assets"
+                                                        Text="&#xE72E;" />
                                                     <TextBlock Text="修改密碼" />
                                                 </StackPanel>
                                             </Button>
@@ -170,52 +284,89 @@
 
             <TabItem>
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" Margin="0,4">
-                        <TextBlock Text="&#xE1E2;" FontFamily="Segoe MDL2 Assets" Margin="0,0,6,0" />
+                    <StackPanel Margin="0,4" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,6,0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Text="&#xE1E2;" />
                         <TextBlock Text="角色與權限" />
                     </StackPanel>
                 </TabItem.Header>
-                <Border Padding="14" CornerRadius="10" >
+                <Border Padding="14" CornerRadius="10">
                     <StackPanel>
-                        <TextBlock Text="角色" FontSize="18" FontWeight="Bold" />
-                        <TextBlock Text="透過彈窗編輯角色名稱與權限。ROOT 角色不可修改。" Foreground="#77000000" Margin="0,0,0,6" />
+                        <TextBlock
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="角色" />
+                        <TextBlock
+                            Margin="0,0,0,6"
+                            Foreground="#77000000"
+                            Text="透過彈窗編輯角色名稱與權限。ROOT 角色不可修改。" />
+                        <TextBlock
+                            Margin="0,0,0,10"
+                            Foreground="#99000000"
+                            Text="{Binding CurrentIdentity}" />
                         <StackPanel Orientation="Horizontal">
-                            <Button Width="110" Click="OnAddRoleClick" Background="#16A34A" Foreground="White" Padding="12,6">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" Margin="0,0,6,0" />
+                            <Button
+                                Width="110"
+                                Padding="12,6"
+                                Background="{StaticResource BtnGreen}"
+                                Click="OnAddRoleClick"
+                                Style="{StaticResource SolidButton}">
+                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="0,0,6,0"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        Text="&#xE710;" />
                                     <TextBlock Text="新增角色" />
                                 </StackPanel>
                             </Button>
-                            <Button Width="110" Margin="8,0,0,0" Command="{Binding DeleteRoleCommand}" Background="#DC2626" Foreground="White" Padding="12,6">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,6,0" />
+                            <Button
+                                Width="110"
+                                Margin="8,0,0,0"
+                                Padding="12,6"
+                                Background="{StaticResource BtnRed}"
+                                Command="{Binding DeleteRoleCommand}"
+                                Style="{StaticResource SolidButton}">
+                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="0,0,6,0"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        Text="&#xE74D;" />
                                     <TextBlock Text="刪除角色" />
                                 </StackPanel>
                             </Button>
                         </StackPanel>
 
-                        <DataGrid ItemsSource="{Binding Roles}"
-                                  SelectedItem="{Binding SelectedRole, Mode=TwoWay}"
-                                  AutoGenerateColumns="False"
-                                  HeadersVisibility="Column"
-                                  RowHeaderWidth="0"
-                                  CanUserAddRows="False"
-                                  IsReadOnly="False"
-                                  SelectionMode="Single"
-                                  Height="360">
+                        <DataGrid
+                            Height="360"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="False"
+                            HeadersVisibility="Column"
+                            IsReadOnly="False"
+                            ItemsSource="{Binding Roles}"
+                            RowHeaderWidth="0"
+                            SelectedItem="{Binding SelectedRole, Mode=TwoWay}"
+                            SelectionMode="Single">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                                                    Header="角色名稱"
-                                                    Width="2*" />
-                                <DataGridTextColumn Binding="{Binding Id}"
-                                                    Header="Id"
-                                                    Width="*" />
-                                <DataGridTemplateColumn Header="操作" Width="1.2*">
+                                <DataGridTextColumn
+                                    Width="*"
+                                    Binding="{Binding Id}"
+                                    Header="Id" />
+                                <DataGridTextColumn
+                                    Width="2*"
+                                    Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                    Header="角色名稱" />
+                                <DataGridTemplateColumn Width="1.2*" Header="操作">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Width="90" Click="OnEditRoleClick" Background="#2563EB" Foreground="White" Padding="10,4">
+                                            <Button
+                                                Width="90"
+                                                Padding="10,4"
+                                                Background="{StaticResource BtnBlue}"
+                                                Click="OnEditRoleClick">
                                                 <Button.Style>
-                                                    <Style TargetType="Button">
+                                                    <Style BasedOn="{StaticResource SolidButton}" TargetType="Button">
                                                         <Setter Property="Visibility" Value="Visible" />
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsRoot}" Value="True">
@@ -224,8 +375,11 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Button.Style>
-                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                    <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" Margin="0,0,4,0" />
+                                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock
+                                                        Margin="0,0,4,0"
+                                                        FontFamily="Segoe MDL2 Assets"
+                                                        Text="&#xE70F;" />
                                                     <TextBlock Text="編輯" />
                                                 </StackPanel>
                                             </Button>
@@ -239,7 +393,12 @@
             </TabItem>
         </TabControl>
 
-        <Border Grid.Row="2" Background="#0F000000" Padding="12,8" BorderBrush="#16000000" BorderThickness="1">
+        <Border
+            Grid.Row="2"
+            Padding="12,8"
+            Background="#0F000000"
+            BorderBrush="#16000000"
+            BorderThickness="1">
             <TextBlock Text="{Binding StatusMessage}" />
         </Border>
     </Grid>
