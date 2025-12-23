@@ -1,0 +1,16 @@
+mode: Mainline
+
+branches:
+  main:
+    regex: ^main$
+    is-mainline: true
+    increment: Patch
+    tag: ''           # main 上不要自動加 pre-release 標籤
+  feature:
+    regex: ^feature[/-]
+    increment: Inherit
+    tag: useBranchName
+    source-branches: ['main']
+
+ignore:
+  sha: []
