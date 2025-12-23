@@ -8,6 +8,8 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>Sunjsong.Auth.WpfUI</RootNamespace>
     <AssemblyName>Sunjsong.Auth.Wpf</AssemblyName>
+      <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+      <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
