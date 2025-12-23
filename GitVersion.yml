@@ -3,13 +3,13 @@ mode: Mainline
 branches:
   main:
     regex: ^main$
-    is-mainline: true
     increment: Patch
-    tag: ''           # main 上不要自動加 pre-release 標籤
+    tag: ''
+
   feature:
     regex: ^feature[/-]
-    increment: Inherit
     tag: useBranchName
+    increment: Inherit
     source-branches: ['main']
 
 ignore:
