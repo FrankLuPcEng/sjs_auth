@@ -3,8 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>Sunjsong.Auth.Store.Sqlite</PackageId>
-    <Version>0.1.0</Version>
+    <PackageId>Sunjsong.Auth.Store.Sqlite</PackageId>   
     <Authors>Sunjsong</Authors>
     <Description>SQLite-backed RBAC store for Sunjsong applications.</Description>
   </PropertyGroup>
